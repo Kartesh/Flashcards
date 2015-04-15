@@ -41,6 +41,8 @@ public class Flashcards {
 		mainWindow.setJMenuBar(mainMenu);
 		mainWindow.pack();
 		
+		System.out.println("Testing GITHUB");
+		
 	}
 	
 	
