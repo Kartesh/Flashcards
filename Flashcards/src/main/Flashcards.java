@@ -1,5 +1,8 @@
 package main;
 
+import java.awt.Color;
+import java.awt.GridLayout;
+
 import javax.swing.*;
 
 public class Flashcards {
@@ -13,12 +16,11 @@ public class Flashcards {
 		private static JMenuItem openDeck = new JMenuItem("Open Deck");
 		private static JMenuItem newDeck = new JMenuItem("New Deck");
 		private static JMenuItem closeDeck = new JMenuItem("Close Deck");
-		
-	
+		private static JMenuItem exitProgram = new JMenuItem("Exit");
+
 	public static void main(String[] args) {
 		
 		guiInit();
-		System.out.println("Testing Branch");
 }
 	
 	
@@ -26,22 +28,26 @@ public class Flashcards {
 	 * Initializes GUI elements and configures their properties.
 	 */
 	public static void guiInit(){
+				
 		
-		
+		mainWindow.setResizable(false);
+		mainWindow.setLayout(new GridLayout(2,0));
 		mainWindow.setVisible(true);
 		mainWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 		
+
 		
 		//Main Menu Adds
 		mainMenu.add(fileMenu);
 			fileMenu.add(openDeck);
 			fileMenu.add(newDeck);
 			fileMenu.add(closeDeck);
-			
+			fileMenu.add(exitProgram);
+
+		
 		mainWindow.setJMenuBar(mainMenu);
 		mainWindow.pack();
-		
-		System.out.println("Testing GITHUB");
 		
 	}
 	
