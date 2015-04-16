@@ -28,7 +28,7 @@ public class Flashcards {
 	public static void guiInit(){			
 		
 		mainWindow.setResizable(true);
-		mainWindow.setLayout(new GridLayout(1,0));
+		//mainWindow.setLayout(new BoxLayout(mainWindow.getContentPane(),BoxLayout.LINE_AXIS));
 		mainWindow.setVisible(true);
 		mainWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		

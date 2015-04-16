@@ -1,6 +1,7 @@
 package main;
 
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -88,8 +89,9 @@ public class Deck extends JPanel implements ActionListener{
 		//Setting element sizes
 		activeDeck.addCard.setSize(100, 20);
 		
-		activeDeck.setLayout(new GridLayout(2,0));
-	    activeDeck.buttonPanel.setLayout(new GridLayout(0,numButtons)); //Buttons Layout
+		activeDeck.setLayout(new BoxLayout(activeDeck, BoxLayout.Y_AXIS));
+	    activeDeck.buttonPanel.setLayout(new FlowLayout()); //Buttons Layout
+	    activeDeck.buttonPanel.setMaximumSize(new Dimension(activeDeck.buttonPanel.getPreferredSize().width,activeDeck.buttonPanel.getPreferredSize().height));
 		activeDeck.contentPanel.setLayout(new BoxLayout(activeDeck.contentPanel, BoxLayout.Y_AXIS));
 		activeDeck.deckTitle.setAlignmentX(CENTER_ALIGNMENT); //Aligning the title to center of panel
 	}

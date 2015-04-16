@@ -2,10 +2,15 @@ package main;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -14,7 +19,7 @@ import javax.swing.JTextField;
  * @author Kartesh
  *
  */
-public class Card extends JPanel{
+public class Card extends JPanel implements ActionListener{
 
 	//TODO Create a card editing window that allows for easy editing of the card.
 	
@@ -31,9 +36,14 @@ public class Card extends JPanel{
 	private JLabel enterTitle = new JLabel("Enter Title:");
 	private JLabel enterMainText = new JLabel("Additional Information:");
 	private JLabel backText = new JLabel("Answer Text:");
+	
 	private JTextField editTitle = new JTextField();
-	private JTextField editMainText = new JTextField();
-	private JTextField editBackText = new JTextField();
+	private JTextArea editMainText = new JTextArea();
+	private JScrollPane editMainTextScrollPane = new JScrollPane(editMainText);
+	private JTextArea editBackText = new JTextArea();
+	private JScrollPane editBackTextScrollPane = new JScrollPane(editBackText);
+	private JButton saveCard = new JButton("Save");
+	private JButton cancelCard = new JButton("Cancel");
 
 	/**
 	 * Creates a card, which implements JPanel. The Card's panel is then managed by the Deck
@@ -57,6 +67,11 @@ public class Card extends JPanel{
 		
 		//editPanel components
 		editTitle.setAutoscrolls(true);
+		editMainText.setToolTipText("Enter a question, or any information for the front of your card.");
+		editMainText.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		editMainText.setRows(5);
+		editMainText.setLineWrap(true);
+		editBackText.setLineWrap(true);
 		
 		//Layouts
 		editingPanel.setLayout(new GridLayout (0,2));
@@ -70,10 +85,15 @@ public class Card extends JPanel{
 		editingPanel.add(enterTitle);
 		editingPanel.add(editTitle);
 		editingPanel.add(enterMainText);
-		editingPanel.add(editMainText);
+		editingPanel.add(editMainTextScrollPane);
 		editingPanel.add(backText);
-		editingPanel.add(editBackText);
+		editingPanel.add(editBackTextScrollPane);
+		editingPanel.add(saveCard);
+		editingPanel.add(cancelCard);
 	
+		//ActionListeners
+		saveCard.addActionListener(this);
+		cancelCard.addActionListener(this);
 		
 	}
 
@@ -134,6 +154,20 @@ public class Card extends JPanel{
 	 * Method is only called by editCard method.
 	 */
 	private void refreshEditCardComponents(){
+		
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		if(e.getActionCommand() == "Save"){
+			System.out.println("Clicked Save");
+		}
+		else if(e.getActionCommand() == "Cancel"){
+			System.out.println("Clicked Cancel");
+		}
 		
 	}
 	
