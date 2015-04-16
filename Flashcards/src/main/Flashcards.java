@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.*;
@@ -29,7 +28,7 @@ public class Flashcards {
 	public static void guiInit(){			
 		
 		mainWindow.setResizable(true);
-		mainWindow.setLayout(new GridLayout(2,0));
+		mainWindow.setLayout(new GridLayout(1,0));
 		mainWindow.setVisible(true);
 		mainWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -43,7 +42,7 @@ public class Flashcards {
 		mainWindow.setJMenuBar(mainMenu);
 		
 		//Temporary Testing Code for the deck functionality.
-		mainWindow.add(new Deck(true));
+		mainWindow.add(new Deck(true, mainWindow)); //mainWindow gets sent so that it can be manipulated from the Deck class for sizing purposes.
 		
 		mainWindow.pack();
 	

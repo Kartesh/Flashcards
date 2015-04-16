@@ -3,8 +3,11 @@ package main;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,8 +20,11 @@ import javax.swing.JPanel;
  */
 public class Deck extends JPanel implements ActionListener{
 	
-	private String deckName = "deckName VOID"; //Defaults to a filler name for debugging.
+	private JFrame mainWindow = null; //ONLY used for the .pack() method of the parent JFrame to keep program sized appropriately.
 	
+	
+	private String deckName = "deckName VOID"; //Defaults to a filler name for debugging.
+	private ArrayList<Card> cardList = new ArrayList<Card>();
 	
 	//GUI variables
 	private JPanel buttonPanel = new JPanel();
@@ -33,10 +39,11 @@ public class Deck extends JPanel implements ActionListener{
 	
 	/**
 	 * If isNew is true, a new deck is created and the user is prompted for a name.
-	 * @param isNew
+	 * @param isNew - Is this a new deck, or are we loading a previously created one?
+	 * @param parentFrame - The parent JFrame is needed to adjust window size after GUI additions and edits.
 	 */
-	public Deck(boolean isNew){
-	
+	public Deck(boolean isNew, JFrame parentFrame){
+		mainWindow = parentFrame;
 		//Are we making a new deck, or simply loading one?
 		if(isNew == true){
 			deckName = JOptionPane.showInputDialog("What would you like to call this deck?");
@@ -78,9 +85,13 @@ public class Deck extends JPanel implements ActionListener{
 	
 	public static void setupElements(Deck activeDeck){
 		
-		activeDeck.setLayout(new GridLayout(0,1));
-	    activeDeck.buttonPanel.setLayout(new GridLayout(0,numButtons)); //Buttons Layout
+		//Setting element sizes
+		activeDeck.addCard.setSize(100, 20);
 		
+		activeDeck.setLayout(new GridLayout(2,0));
+	    activeDeck.buttonPanel.setLayout(new GridLayout(0,numButtons)); //Buttons Layout
+		activeDeck.contentPanel.setLayout(new BoxLayout(activeDeck.contentPanel, BoxLayout.Y_AXIS));
+		activeDeck.deckTitle.setAlignmentX(CENTER_ALIGNMENT); //Aligning the title to center of panel
 	}
 
 
@@ -90,7 +101,8 @@ public class Deck extends JPanel implements ActionListener{
 		
 		//Deck Button action events
 		if(e.getActionCommand() == "Add Card"){
-			System.out.println("Clicked Add Card");
+			System.out.println("Adding Card...");
+			addCard();
 		}
 		else if(e.getActionCommand() == "Next Card"){
 			System.out.println("Clicked Next Card");
@@ -105,6 +117,18 @@ public class Deck extends JPanel implements ActionListener{
 			System.out.println("Edit Card Clicked");
 		}
 		
+	}
+
+
+	private void addCard() {
+		// TODO Auto-generated method stub
+		cardList.add(new Card());
+		contentPanel.add(cardList.get(0));
+		contentPanel.repaint();
+		contentPanel.revalidate();
+		contentPanel.repaint();
+		
+		mainWindow.pack();
 	}
 	
 	
