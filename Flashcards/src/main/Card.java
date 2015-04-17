@@ -20,14 +20,14 @@ import javax.swing.JTextField;
  *
  */
 public class Card extends JPanel implements ActionListener{
-
-	//TODO Create a card editing window that allows for easy editing of the card.
 	
 	private JPanel frontPanel = new JPanel();
 	private JPanel backPanel = new JPanel();
 	private JPanel editingPanel = new JPanel(); //Stores components used to add information to cards.
 	
 	
+	public Deck workingDeck;
+	private int cardIndex;
 	private String cardTitle = "Nothing Entered";
 	private String cardQuestion = "Nothing Entered";
 	private String cardAnswer = "Nothing Entered";
@@ -48,22 +48,27 @@ public class Card extends JPanel implements ActionListener{
 	/**
 	 * Creates a card, which implements JPanel. The Card's panel is then managed by the Deck
 	 * class.
+	 * @param workingDeck - Required so that the card can delete itself if necessary from the deck.
+	 * @param deckIndex - used so that the card has knowledge of its location within the deck.
 	 */
-	Card(){
+	Card(Deck workingDeck, int deckIndex){
+		
+		this.workingDeck = workingDeck;
+		this.cardIndex = deckIndex;
+		//this.debug = workingDeck.getDebug();
+		
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		guiAdds();
 		cardInitialization();
 		
-		
-		//TEST CODE
+
+		//TEST CODE TODO This is to be removed once supporting functions implemented.
 		this.add(editingPanel);
 	}
 	
 	
-	private void cardInitialization() {
-		// TODO Auto-generated method stub
-		
+	private void cardInitialization() {	
 		
 		//editPanel components
 		editTitle.setAutoscrolls(true);
@@ -79,7 +84,6 @@ public class Card extends JPanel implements ActionListener{
 
 
 	private void guiAdds() {
-		// TODO Auto-generated method stub
 		
 		//Edit Panel adds
 		editingPanel.add(enterTitle);
@@ -156,17 +160,48 @@ public class Card extends JPanel implements ActionListener{
 	private void refreshEditCardComponents(){
 		
 	}
-
+	
+	/**
+	 * This method is called when a card is to be saved. It finishes the object setup so that it can be displayed.
+	 */
+	private void saveCard(){
+		//this.editingPanel.setVisible(false); //Hide the editing panel. TODO this seems to have had an undesired effect... find a better solution such as actually removing it from the contentPanel of the Deck.
+	}
+	
+	/**
+	 * This is the method used to display a card that has already been created.
+	 * TODO May not be a necessary method...
+	 */
+	private void displayCard(){
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 		if(e.getActionCommand() == "Save"){
-			System.out.println("Clicked Save");
+			if(this.workingDeck.getDebug()) System.out.println("Clicked Save... Calling saveCard method, followed by displayCard method.");
+			this.workingDeck.setIsAddCardOpen(false);
+			this.workingDeck.setCardIndex(this.workingDeck.getCardIndex() + 1); //Incriment the cardIndex by one in the workingDeck.
+			//TODO we need to account for iterations on the array list for additional cards to be added.
+			saveCard();
+			displayCard();
 		}
 		else if(e.getActionCommand() == "Cancel"){
-			System.out.println("Clicked Cancel");
+						
+			if(workingDeck.getDebug() == true){
+				System.out.println("Clicked Cancel.. removing card.");
+			}
+			this.workingDeck.getContentPanel().remove(this.workingDeck.getCardList().get(cardIndex));
+			//this.workingDeck.getCardList().remove(cardIndex); //This may not be necessary.
+			
+			//clear text boxes
+			this.editTitle.setText("");
+			this.editMainText.setText("");
+			this.editBackText.setText("");
+			
+			this.workingDeck.updatePanels();
+			this.workingDeck.setIsAddCardOpen(false);
 		}
 		
 	}

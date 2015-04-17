@@ -1,11 +1,13 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,11 +23,13 @@ import javax.swing.JPanel;
  */
 public class Deck extends JPanel implements ActionListener{
 	
-	private JFrame mainWindow = null; //ONLY used for the .pack() method of the parent JFrame to keep program sized appropriately.
+	private boolean debug = true; //Only used for debugging, provides System.out lines 
 	
-	
+	private JFrame mainWindow = null; //ONLY used for the .pack() method of the parent JFrame to keep program sized appropriately	
 	private String deckName = "deckName VOID"; //Defaults to a filler name for debugging.
 	private ArrayList<Card> cardList = new ArrayList<Card>();
+	private boolean isAddCardOpen = false;
+	private int cardIndex = 0;
 	
 	//GUI variables
 	private JPanel buttonPanel = new JPanel();
@@ -86,8 +90,10 @@ public class Deck extends JPanel implements ActionListener{
 	
 	public static void setupElements(Deck activeDeck){
 		
+		//activeDeck.contentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
 		//Setting element sizes
-		activeDeck.addCard.setSize(100, 20);
+		//activeDeck.addCard.setSize(100, 20);
 		
 		activeDeck.setLayout(new BoxLayout(activeDeck, BoxLayout.Y_AXIS));
 	    activeDeck.buttonPanel.setLayout(new FlowLayout()); //Buttons Layout
@@ -103,8 +109,16 @@ public class Deck extends JPanel implements ActionListener{
 		
 		//Deck Button action events
 		if(e.getActionCommand() == "Add Card"){
-			System.out.println("Adding Card...");
-			addCard();
+			
+			if(isAddCardOpen){
+				if(debug)System.out.println("Add card is currently open, Add Card button click ignored...");				
+			}else{
+				if(debug)System.out.println("Adding Card...");
+				addCard();
+				isAddCardOpen = true; //so the user cannot click on add card if it is open.
+			}
+			
+			
 		}
 		else if(e.getActionCommand() == "Next Card"){
 			System.out.println("Clicked Next Card");
@@ -123,16 +137,42 @@ public class Deck extends JPanel implements ActionListener{
 
 
 	private void addCard() {
-		// TODO Auto-generated method stub
-		cardList.add(new Card());
-		contentPanel.add(cardList.get(0));
-		contentPanel.repaint();
-		contentPanel.revalidate();
-		contentPanel.repaint();
+		if(!isAddCardOpen){
+		cardList.add(new Card(this, cardIndex)); 
+		contentPanel.add(cardList.get(cardIndex));
+		updatePanels();
 		
 		mainWindow.pack();
+		}
 	}
 	
+	
+	
+	public boolean getDebug(){
+		return debug;
+	}
+	public ArrayList<Card> getCardList(){
+		return cardList;
+	}
+	public JPanel getContentPanel(){
+		return contentPanel;
+	}
+	public void updatePanels(){
+		contentPanel.revalidate();
+		contentPanel.repaint();
+	}
+	public void setIsAddCardOpen(boolean isCardOpen){
+		this.isAddCardOpen = isCardOpen;
+	}
+	public boolean getIsAddCardOpen(){
+		return this.isAddCardOpen;
+	}
+	public int getCardIndex(){
+		return this.cardIndex;
+	}
+	public void setCardIndex(int index){
+		this.cardIndex = index;
+	}
 	
 
 }
