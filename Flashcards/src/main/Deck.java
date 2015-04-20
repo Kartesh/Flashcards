@@ -26,12 +26,13 @@ public class Deck extends JPanel implements ActionListener{
 	private boolean debug = true; //Only used for debugging, provides System.out lines 
 	
 	private JFrame mainWindow = null; //ONLY used for the .pack() method of the parent JFrame to keep program sized appropriately	
-	private String deckName = "deckName VOID"; //Defaults to a filler name for debugging.
+	private static String deckName = null;
 	private ArrayList<Card> cardList = new ArrayList<Card>();
 	private boolean isAddCardOpen = false;
 	private int cardIndex = 0;
 	
 	//GUI variables
+	private String deckTitleString = "";
 	private JPanel buttonPanel = new JPanel();
 	private JPanel contentPanel = new JPanel(); //Displays deck info and cards
 	private JLabel deckTitle = new JLabel(deckName);
@@ -40,7 +41,7 @@ public class Deck extends JPanel implements ActionListener{
 	private JButton nextCard = new JButton("Next Card");
 	private JButton deleteCard = new JButton("Delete Card");
 	private JButton editCard = new JButton("Edit Card");
-	private static int numButtons = 5;//How many buttons are on the buttonPanel
+	//private static int numButtons = 5;//How many buttons are on the buttonPanel
 	
 	/**
 	 * If isNew is true, a new deck is created and the user is prompted for a name.
@@ -53,10 +54,10 @@ public class Deck extends JPanel implements ActionListener{
 		if(isNew == true){
 			deckName = JOptionPane.showInputDialog("What would you like to call this deck?");
 			deckTitle.setText(deckName);
+			deckTitleString = deckTitle.getText();
 		}else{
 			//TODO -- This code will load a previously created deck from a saved file.
-		}
-		
+		}		
 		addElements(this); //Place all GUI elements.
 		setupElements(this);//Perform element configurations
 		addActionListeners(this);//Add the action listeners
@@ -137,12 +138,20 @@ public class Deck extends JPanel implements ActionListener{
 
 
 	private void addCard() {
+		
 		if(!isAddCardOpen){
+			
+		if(!cardList.isEmpty()){
+			contentPanel.removeAll(); //Clear the content panel if something is already on it.	
+			contentPanel.add(deckTitle);
+		}	
+	
 		cardList.add(new Card(this, cardIndex)); 
 		contentPanel.add(cardList.get(cardIndex));
 		updatePanels();
 		
 		mainWindow.pack();
+		
 		}
 	}
 	
@@ -157,9 +166,22 @@ public class Deck extends JPanel implements ActionListener{
 	public JPanel getContentPanel(){
 		return contentPanel;
 	}
+	/**
+	 * Refreshes the deck panels so that changes are seen on the screen. 
+	 */
 	public void updatePanels(){
 		contentPanel.revalidate();
 		contentPanel.repaint();
+	}
+	/**
+	 * Called to refresh the deck title to represent the number of cards currently in the deck.
+	 * This can be called by the card class' activeDeck pointer.
+	 */
+	public void refreshDeckTitle(){
+		
+		if(cardList.size() > 1)deckTitleString = deckName + " contains " + this.cardList.size() + " cards.";
+		else if(cardList.size() == 1)deckTitleString = deckName + " contains " + this.cardList.size() + " card.";
+		deckTitle.setText(deckTitleString);
 	}
 	public void setIsAddCardOpen(boolean isCardOpen){
 		this.isAddCardOpen = isCardOpen;

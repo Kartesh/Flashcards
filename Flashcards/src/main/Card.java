@@ -100,8 +100,6 @@ public class Card extends JPanel implements ActionListener{
 		cancelCard.addActionListener(this);
 		
 	}
-
-
 	//Generated setters and getters
 	public String getCardTitle() {
 		return cardTitle;
@@ -121,61 +119,59 @@ public class Card extends JPanel implements ActionListener{
 	public void setCardAnswer(String cardAnswer) {
 		this.cardAnswer = cardAnswer;
 	}
-
-
 	public JPanel getBackPanel() {
 		return backPanel;
 	}
-
-
 	public void setBackPanel(JPanel backPanel) {
 		this.backPanel = backPanel;
 	}
-
-
 	public JPanel getFrontPanel() {
 		return frontPanel;
 	}
-
-
 	public void setFrontPanel(JPanel frontPanel) {
 		this.frontPanel = frontPanel;
 	}
-	
-	
 	/**
 	 * Calls the edit panel used for editing a Card's displayed information.
 	 */
 	public void editCard(){
-		refreshEditCardComponents(); //TODO Program Refresh components
-		
+		//TODO implement this function
 	}
-	
-	
-	/**
-	 * Refreshes the text boxes in the editPanel so that they represent currently held
-	 * information in the Card class.
-	 * Method is only called by editCard method.
-	 */
-	private void refreshEditCardComponents(){
-		
-	}
-	
 	/**
 	 * This method is called when a card is to be saved. It finishes the object setup so that it can be displayed.
 	 */
 	private void saveCard(){
-		//this.editingPanel.setVisible(false); //Hide the editing panel. TODO this seems to have had an undesired effect... find a better solution such as actually removing it from the contentPanel of the Deck.
+		//TODO This function needs to write to the object variabels based on what is inputed by the user text box's.
+		
+		//TODO Algorythm
+		//make layout adjustments for the text areas without buttons and labels.
+		
+		this.editingPanel.remove(this.saveCard);
+		this.editingPanel.remove(this.cancelCard);
+		this.editingPanel.remove(this.enterMainText);
+		this.editingPanel.remove(this.enterTitle);
+		this.editingPanel.remove(this.backText);
+		
+		this.editingPanel.setLayout(new GridLayout(0,1));
+		
+		this.editTitle.setEditable(false);
+		this.editMainText.setEditable(false);
+		this.editBackText.setEditable(false);
+		
+		this.cardTitle = editTitle.getText();
+		this.cardQuestion = editMainText.getText();
+		this.cardAnswer = editBackText.getText();
+		
+		this.workingDeck.setIsAddCardOpen(false);
+		this.workingDeck.refreshDeckTitle();
+		this.workingDeck.updatePanels();
 	}
-	
 	/**
 	 * This is the method used to display a card that has already been created.
-	 * TODO May not be a necessary method...
 	 */
 	private void displayCard(){
-		
+		//TODO Implement this function
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -193,7 +189,7 @@ public class Card extends JPanel implements ActionListener{
 				System.out.println("Clicked Cancel.. removing card.");
 			}
 			this.workingDeck.getContentPanel().remove(this.workingDeck.getCardList().get(cardIndex));
-			//this.workingDeck.getCardList().remove(cardIndex); //This may not be necessary.
+			this.workingDeck.getCardList().remove(cardIndex);
 			
 			//clear text boxes
 			this.editTitle.setText("");
