@@ -30,6 +30,7 @@ public class Deck extends JPanel implements ActionListener{
 	private ArrayList<Card> cardList = new ArrayList<Card>();
 	private boolean isAddCardOpen = false;
 	private int cardIndex = 0;
+	private int placeInDeck = 0;
 	
 	//GUI variables
 	private String deckTitleString = "";
@@ -123,9 +124,33 @@ public class Deck extends JPanel implements ActionListener{
 		}
 		else if(e.getActionCommand() == "Next Card"){
 			System.out.println("Clicked Next Card");
+			
+			contentPanel.removeAll();
+			contentPanel.add(this.deckTitle);
+			
+				
+			//the this.cardList.size() -1) is to account for an off by one error that occured.
+			if(placeInDeck < this.cardList.size() -1){
+				placeInDeck++;
+			}
+			
+			
+			System.out.println(placeInDeck);
+			contentPanel.add(cardList.get(this.placeInDeck));
+			this.updatePanels();
 		}
 		else if(e.getActionCommand() == "Previous Card"){
 			System.out.println("Previous Card clicked");
+
+			contentPanel.removeAll();
+			contentPanel.add(this.deckTitle);
+			
+			if(placeInDeck > 0){
+				placeInDeck--;
+			}
+			System.out.println(placeInDeck);
+			contentPanel.add(cardList.get(this.placeInDeck));
+			this.updatePanels();
 		}
 		else if(e.getActionCommand() == "Delete Card"){
 			System.out.println("Delete card clicked");
@@ -145,7 +170,8 @@ public class Deck extends JPanel implements ActionListener{
 			contentPanel.removeAll(); //Clear the content panel if something is already on it.	
 			contentPanel.add(deckTitle);
 		}	
-	
+		this.placeInDeck = cardList.size();
+		System.out.println(cardList.size());
 		cardList.add(new Card(this, cardIndex)); 
 		contentPanel.add(cardList.get(cardIndex));
 		updatePanels();
